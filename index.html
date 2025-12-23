@@ -2,44 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Connect WhatsApp Business</title>
+  <title>Connect WhatsApp Business - CabMind</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f6f7;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
     }
     .card {
       background: #ffffff;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 420px;
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 480px;
       width: 100%;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       text-align: center;
     }
-    button {
-      background-color: #1877f2;
+    .logo {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+    .tagline {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #1a1a2e;
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+    .description {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+    .connect-btn {
+      background-color: #25D366;
       color: white;
       border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 6px;
+      padding: 16px 24px;
+      font-size: 17px;
+      font-weight: 600;
+      border-radius: 8px;
       cursor: pointer;
       width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background-color 0.2s, transform 0.1s;
     }
-    button:hover {
-      background-color: #145dbf;
+    .connect-btn:hover {
+      background-color: #1da851;
+      transform: translateY(-1px);
     }
-    p {
+    .connect-btn:active {
+      transform: translateY(0);
+    }
+    .connect-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .connect-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+    .note {
+      font-size: 13px;
+      color: #888;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    .features {
+      text-align: left;
+      margin: 25px 0;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    .features li {
+      padding: 8px 0;
+      color: #444;
       font-size: 14px;
-      color: #555;
-      margin-top: 15px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .features li::before {
+      content: "✓";
+      color: #25D366;
+      font-weight: bold;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+    .status.success {
+      display: block;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.error {
+      display: block;
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .status.info {
+      display: block;
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    
+    /* Debug panel - remove in production */
+    .debug-panel {
+      margin-top: 30px;
+      padding: 20px;
+      background: #1a1a2e;
+      border-radius: 10px;
+      text-align: left;
+      display: none;
+    }
+    .debug-panel.show {
+      display: block;
+    }
+    .debug-panel h4 {
+      color: #25D366;
+      margin: 0 0 10px 0;
+      font-size: 14px;
+    }
+    .debug-panel pre {
+      color: #fff;
+      font-size: 12px;
+      overflow-x: auto;
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
   </style>
 </head>
@@ -47,52 +166,243 @@
 <body>
 
 <div class="card">
+  <div class="logo">🚕 CabMind</div>
+  <div class="tagline">AI-Powered Communication for Taxi Operators</div>
+  
   <h2>Connect Your WhatsApp</h2>
-  <p>
-    Connect your WhatsApp Business number to enable automated booking,
-    updates, and customer support.
+  
+  <p class="description">
+    Link your WhatsApp Business number to enable automated bookings, 
+    customer support, and real-time updates.
   </p>
 
-  <button onclick="connectWhatsApp()">Connect WhatsApp Business</button>
+  <ul class="features">
+    <li>Keep using your WhatsApp Business App normally</li>
+    <li>Automated booking confirmations</li>
+    <li>24/7 AI-powered customer support</li>
+    <li>Real-time ride updates to customers</li>
+  </ul>
 
-  <p>
-    You will continue to use WhatsApp Business App normally.
+  <button class="connect-btn" id="connectBtn" onclick="launchWhatsAppSignup()">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    Connect WhatsApp Business
+  </button>
+
+  <p class="note">
+    🔒 Secure connection via Meta's official API.<br>
+    Your data stays private and secure.
   </p>
+
+  <div id="statusMessage" class="status"></div>
+
+  <!-- Debug Panel - Shows captured data (remove in production) -->
+  <div id="debugPanel" class="debug-panel">
+    <h4>📋 Captured Data (Debug Mode)</h4>
+    <pre id="debugOutput">Waiting for connection...</pre>
+  </div>
 </div>
 
 <!-- Facebook SDK -->
 <script>
-  window.fbAsyncInit = function () {
+  // ============================================
+  // CONFIGURATION - UPDATE THESE VALUES
+  // ============================================
+  const CONFIG = {
+    appId: '1302145801707701',           // Your Meta App ID
+    configId: '',                         // Your Embedded Signup Config ID (get from Meta Dashboard)
+    apiVersion: 'v21.0',
+    backendWebhook: 'https://automation.cabmind.co.uk/webhook/whatsapp-signup',  // Your n8n webhook
+    debug: true                           // Set to false in production
+  };
+
+  // ============================================
+  // INITIALIZE FACEBOOK SDK
+  // ============================================
+  window.fbAsyncInit = function() {
     FB.init({
-      appId: 1302145801707701, // 🔴 CHANGE THIS
+      appId: CONFIG.appId,
       autoLogAppEvents: true,
       xfbml: false,
-      version: 'v24.0'
+      version: CONFIG.apiVersion
     });
+    
+    console.log('✅ Facebook SDK initialized');
+    updateDebug('Facebook SDK ready. Click button to start.');
   };
-</script>
 
-<script async defer crossorigin="anonymous"
-  src="https://connect.facebook.net/en_US/sdk.js">
-</script>
+  // Load SDK
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
 
-<script>
-  function connectWhatsApp() {
-    FB.login(function (response) {
+  // ============================================
+  // MESSAGE EVENT LISTENER - THIS IS THE KEY!
+  // Captures WhatsApp Business data from Meta
+  // ============================================
+  window.addEventListener('message', function(event) {
+    // Only accept messages from Facebook
+    if (event.origin !== "https://www.facebook.com" && event.origin !== "https://web.facebook.com") {
+      return;
+    }
+
+    try {
+      const data = JSON.parse(event.data);
+      console.log('📨 Message received from Meta:', data);
+      updateDebug('Message event received:\n' + JSON.stringify(data, null, 2));
+
+      // Check if this is the WhatsApp Embedded Signup completion
+      if (data.type === 'WA_EMBEDDED_SIGNUP') {
+        handleWhatsAppSignupComplete(data);
+      }
+    } catch (e) {
+      // Not JSON, ignore
+    }
+  });
+
+  // ============================================
+  // LAUNCH WHATSAPP EMBEDDED SIGNUP
+  // ============================================
+  function launchWhatsAppSignup() {
+    const btn = document.getElementById('connectBtn');
+    btn.disabled = true;
+    btn.textContent = 'Connecting...';
+    
+    showStatus('Opening WhatsApp Business setup...', 'info');
+    updateDebug('Starting Embedded Signup flow...');
+
+    FB.login(function(response) {
+      console.log('🔐 FB.login response:', response);
+      updateDebug('FB.login response:\n' + JSON.stringify(response, null, 2));
+
       if (response.authResponse) {
-        console.log("Login success:", response);
-        alert("Connected successfully. You can close this page.");
+        const accessToken = response.authResponse.accessToken;
+        
+        showStatus('Facebook connected! Complete the WhatsApp setup in the popup...', 'info');
+        
+        // The WhatsApp data will come through the message event listener above
+        // But we also try to get it from the response if available
+        
+        if (response.authResponse.code) {
+          // Exchange code for session info if needed
+          console.log('📝 Authorization code received');
+        }
+
       } else {
-        alert("Login cancelled or failed.");
+        console.log('❌ User cancelled login');
+        showStatus('Connection cancelled. Please try again.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:24px;height:24px">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Connect WhatsApp Business
+        `;
       }
     }, {
       scope: 'business_management,whatsapp_business_management,whatsapp_business_messaging',
       extras: {
+        feature: 'whatsapp_embedded_signup',
         setup: {
-          solutionID: 1302145801707701 // 🔴 SAME APP ID
-        }
+          // If you have a config ID from Meta Dashboard, use it:
+          // configurationId: CONFIG.configId,
+          
+          // Otherwise, use solutionID (your app ID):
+          solutionID: CONFIG.appId,
+        },
+        sessionInfoVersion: 2  // Important: Request session info version 2
       }
     });
+  }
+
+  // ============================================
+  // HANDLE WHATSAPP SIGNUP COMPLETION
+  // ============================================
+  function handleWhatsAppSignupComplete(data) {
+    console.log('🎉 WhatsApp Signup Complete!', data);
+    
+    // Extract the important IDs
+    const signupData = {
+      phone_number_id: data.data?.phone_number_id || null,
+      waba_id: data.data?.waba_id || null,
+      business_id: data.data?.business_id || null,
+      timestamp: new Date().toISOString()
+    };
+
+    updateDebug('✅ WhatsApp Connected!\n\n' + JSON.stringify(signupData, null, 2));
+    
+    if (signupData.phone_number_id) {
+      showStatus(
+        `✅ WhatsApp Connected Successfully!<br>
+        Phone Number ID: ${signupData.phone_number_id}<br>
+        WABA ID: ${signupData.waba_id}`,
+        'success'
+      );
+      
+      // Send to your backend
+      sendToBackend(signupData);
+      
+    } else {
+      showStatus('Connection completed but no phone number ID received. Check debug panel.', 'error');
+    }
+
+    // Re-enable button
+    const btn = document.getElementById('connectBtn');
+    btn.disabled = false;
+    btn.textContent = '✓ Connected';
+    btn.style.backgroundColor = '#28a745';
+  }
+
+  // ============================================
+  // SEND DATA TO YOUR N8N BACKEND
+  // ============================================
+  async function sendToBackend(data) {
+    try {
+      updateDebug('Sending to backend: ' + CONFIG.backendWebhook);
+      
+      const response = await fetch(CONFIG.backendWebhook, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ Backend response:', result);
+        updateDebug('Backend saved successfully:\n' + JSON.stringify(result, null, 2));
+      } else {
+        console.error('❌ Backend error:', response.status);
+        updateDebug('Backend error: ' + response.status);
+      }
+    } catch (error) {
+      console.error('❌ Failed to send to backend:', error);
+      updateDebug('Failed to send to backend: ' + error.message);
+    }
+  }
+
+  // ============================================
+  // HELPER FUNCTIONS
+  // ============================================
+  function showStatus(message, type) {
+    const statusEl = document.getElementById('statusMessage');
+    statusEl.innerHTML = message;
+    statusEl.className = 'status ' + type;
+  }
+
+  function updateDebug(message) {
+    if (CONFIG.debug) {
+      const debugPanel = document.getElementById('debugPanel');
+      const debugOutput = document.getElementById('debugOutput');
+      debugPanel.classList.add('show');
+      debugOutput.textContent = message;
+    }
   }
 </script>
 
